@@ -62,7 +62,7 @@ public String filenames,cu,dates,computername,senderofmail,reportPath;
         String host = "smtp.gmail.com";
         String Password ="plusaphia";
         String from = "aphiabackup@gmail.com";
-        toAddress=mail+",aphiabackup@gmail.com,ekaunda@aphiarift.org,VOdingo@fhi360.org,Mkibiwot@aphiarift.org";
+        toAddress=mail+",aphiabackup@gmail.com,ekaunda@aphiarift.org,VOdingo@fhi360.org,Mobuya@aphiarift.org";
         System.out.println("too address   :  "+toAddress);
         // toAddress = "aphiapluschwsattendance@gmail.com";  filled above...
         String filename = filenames;
@@ -79,7 +79,7 @@ public String filenames,cu,dates,computername,senderofmail,reportPath;
 
         message.setRecipients(Message.RecipientType.TO, toAddress);
 
-        message.setSubject("PWP SQL DATA BACK_UP From : "+computername);
+        message.setSubject("PWP SQL DATA BACK_UP V_1.7 From : "+computername);
 
         BodyPart messageBodyPart = new MimeBodyPart();
         BodyPart messageBodyPart2 = new MimeBodyPart();
@@ -99,8 +99,8 @@ public String filenames,cu,dates,computername,senderofmail,reportPath;
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart2.setDataHandler(new DataHandler(reportSource));
 
-        messageBodyPart.setFileName("PWP_V1_11_APRIL_2016_"+county.trim()+"_"+partner.trim()+"_Data_"+createdOn.trim()+".sql");
-        messageBodyPart2.setFileName("PWP_V1_11_APRIL_2016_"+county.trim()+"_"+partner.trim()+"_REPORT_"+createdOn.trim()+".xlsm");
+        messageBodyPart.setFileName("PWP_V1_14_JUNE_2016_"+county.trim()+"_"+partner.trim()+"_Data_"+createdOn.trim()+".sql");
+        messageBodyPart2.setFileName("PWP_V1_14_JUNE_2016_"+county.trim()+"_"+partner.trim()+"_REPORT_"+createdOn.trim()+".xlsm");
         
         
         multipart.addBodyPart(messageBodyPart);

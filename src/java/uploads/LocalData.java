@@ -66,7 +66,7 @@ String mail="",county="",partner="",urmail="";
     }
     if(!mail.equals(""))
     {
-        mail+="_mwambage@gmail.com_jkuria@aphiarift.org";
+        mail+="_ekaunda@aphiarift.org_mobuya@aphiarift.org";
         dbname = "pwp";
         dbuser = "root";
         dbpassword = "";

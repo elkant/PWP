@@ -57,13 +57,13 @@ String current_group,previous_group,dic_name;
   HSSFSheet shet1=wb.createSheet();
   HSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
-    font.setFontName("Arial Black");
+    font.setFontName("Cambria");
     font.setColor((short)0000);
     CellStyle style=wb.createCellStyle();
     style.setFont(font);
     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
      HSSFFont font2=wb.createFont();
-    font2.setFontName("Arial Black");
+    font2.setFontName("Cambria");
     font2.setColor((short)0000);
     CellStyle style2=wb.createCellStyle();
     style2.setFont(font2);
@@ -122,7 +122,7 @@ String current_group,previous_group,dic_name;
     styleBorder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     styleBorder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
     styleBorder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleBorder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    styleBorder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
   HSSFRow rw1=shet1.createRow(1);
   HSSFCell cell;
    HSSFRow rw4=shet1.createRow(0);
@@ -247,7 +247,7 @@ current_group="";
         String getClients="SELECT "
 + "DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )"
 + ",personal_information.gender,district.district_name,partner.partner_name,county.county_name,"
-+ "register2.session_no,SUM(register2.value),dic.dic_name "
++ "register2.session_no,SUM(register2.value),dic.dic_name as DIC "
 + " FROM personal_information "
 + "LEFT JOIN dic ON personal_information.dic_id=dic.dic_id "
 + "LEFT JOIN district ON personal_information.district_id=district.district_id "
@@ -257,6 +257,8 @@ current_group="";
 + " WHERE register2.value<2 && STR_TO_DATE(register2.date,'%m/%d/%Y') BETWEEN STR_TO_DATE('"+startDate+"','%m/%d/%Y') AND STR_TO_DATE('"+endDate+"','%m/%d/%Y')  "
 + " GROUP BY county.county_name,partner.partner_name,district.district_name,dic.dic_name,register2.session_no ORDER BY partner.partner_name,district.district_name,dic.dic_name";
 conn.rs=conn.st.executeQuery(getClients);
+        System.out.println(""+getClients);
+
        while(conn.rs.next()){
  county=district=hf=partner=groupname=serviceprovider=clientname=age=gender=groupings=year=providerid="";
  countyid=districtid=hfid=partnerid=groupid=serviceproviderid=clientid="";
@@ -275,14 +277,16 @@ message_no=achieved=0;
        county=conn.rs.getString(5);
      message_no=conn.rs.getInt(6);
      achieved=conn.rs.getInt(7); 
-     dic_name=conn.rs.getString(8);
+     
+          
+     if(conn.rs.getString("DIC")==null){dic_name="No DIC";} else { dic_name=conn.rs.getString("DIC"); }
 //      OUTPUT ATTENDED-------------------------------- 
-  current_group=district;
+  current_group=district+dic_name;
        cm=rsp=tb=sti=testedpartner=testedchild=session_no=value=status="NO";
     if(current_group.equals("")){
         previous_group=current_group;
       //  OUTPUT SERVICES PROVIDED================================     
-             HSSFRow rw4x=shet1.createRow(i);
+    HSSFRow rw4x=shet1.createRow(i);
     rw4.setHeightInPoints(45);
     rw4.setRowStyle(style2);
 // rw4.createCell(1).setCellValue("Number");
@@ -320,6 +324,7 @@ message_no=achieved=0;
  cell1x.setCellValue(partner);
  cell2x.setCellValue(district);
  cell3x.setCellValue(dic_name);
+  
 // cell4x.setCellValue(message_no);
 // cell5x.setCellValue(achieved);
  if(message_no==1){cell13x .setCellValue(achieved);}
@@ -429,6 +434,7 @@ i++;
  cell1x.setCellValue(partner);
  cell2x.setCellValue(district);
  cell3x.setCellValue(dic_name);
+
 // cell4x.setCellValue(message_no);
 // cell5x.setCellValue(achieved);
  if(message_no==1){cell13x .setCellValue(achieved);}
@@ -514,7 +520,7 @@ if(message_no==2){ HSSFCell cell14x=rw4x.createCell(14);cell14x.setCellValue(ach
  if(message_no==11){HSSFCell cell23x=rw4x.createCell(23);cell23x.setCellValue(achieved);cell23x.setCellStyle(styleBorder);}
  if(message_no==12){HSSFCell cell24x=rw4x.createCell(24);cell24x.setCellValue(achieved);cell24x.setCellStyle(styleBorder);}
  if(message_no==13){HSSFCell cell25x=rw4x.createCell(25);cell25x.setCellValue(achieved);cell25x.setCellStyle(styleBorder);}
-
+ HSSFCell cell3x=rw4x.createCell(3);cell3x.setCellValue(dic_name);cell3x.setCellStyle(styleBorder);
     }
  else{
      System.out.println("here-------------nothing seen");

@@ -57,16 +57,16 @@ int pos,achieved,year,pepfaryear,prevYear;
    prevYear=pepfaryear-1;
  
    //    COPY FILE TO BE WRITTEN TO 
-    Path original = Paths.get(getServletContext().getRealPath("/ENROLLMENT_TEMPLATE.xlsm")); //original file
+    Path original = Paths.get(getServletContext().getRealPath("/ENROLLMENT_TEMPLATE_2.xlsm")); //original file
    Path destination = Paths.get(getServletContext().getRealPath("/ENROLLMENT_TEMPLATE_2.xlsm")); //new file
    System.out.println("origin :  "+original+" destination    :  "+destination);
-try {
-       Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
-       System.out.println("file copied----------------");
-    } catch (IOException x) {
-       //catch all for IO problems
-        System.out.println("fine not copied");
-    }
+//try {
+//       //Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
+//       System.out.println("file copied----------------");
+//    } catch (IOException x) {
+//       //catch all for IO problems
+//        System.out.println("fine not copied");
+//    }
     
     
         String allpath = getServletContext().getRealPath("/ENROLLMENT_TEMPLATE_2.xlsm");
@@ -127,7 +127,7 @@ wb = new XSSFWorkbook(pkg);
 //  CREATE HEADING 2
   XSSFRow rheading2=shet1.createRow(0);
   rheading2.setHeightInPoints(25);
-  XSSFCell cellxx1,cellxx2,cellxx3,cellxx4,cellxx5,cellxx6,cellxx7,cellxx8;
+  XSSFCell cellxx1,cellxx2,cellxx3,cellxx4,cellxx5,cellxx6,cellxx7,cellxx8,cellxx9;
   cellxx1=rheading2.createCell(0);
   cellxx2=rheading2.createCell(1);
     cellxx3=rheading2.createCell(2);
@@ -136,6 +136,7 @@ wb = new XSSFWorkbook(pkg);
     cellxx6=rheading2.createCell(5);
     cellxx7=rheading2.createCell(6);
     cellxx8=rheading2.createCell(7);
+    cellxx9=rheading2.createCell(7);
 
 
  cellxx1.setCellValue("COUNTY NAME");
@@ -146,6 +147,7 @@ wb = new XSSFWorkbook(pkg);
  cellxx6.setCellValue("TOTAL ENROLLED");
  cellxx7.setCellValue("GENDER");
  cellxx8.setCellValue("AGE BRACKET");
+ cellxx9.setCellValue("DIC");
 
   
              cellxx1.setCellStyle(styleBorder);
@@ -156,6 +158,7 @@ wb = new XSSFWorkbook(pkg);
              cellxx6.setCellStyle(styleBorder);
              cellxx7.setCellStyle(styleBorder);
              cellxx8.setCellStyle(styleBorder);
+             cellxx9.setCellStyle(styleBorder);
 
 
 pos=1;
@@ -206,11 +209,11 @@ stylex.setWrapText(true);
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 25 AND 49 THEN '25-49'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) >49 THEN '50 and above'" +
               " ELSE 'NO DATE OF BIRTH'" +
-"   END AS AGEBRACKET "+
+"   END AS AGEBRACKET, dic.dic_name as DIC "+
 "FROM personal_information  " +
 "JOIN partner ON partner.partner_id=personal_information.partner_id  " +
 "JOIN district ON district.district_id=personal_information.district_id  " +
-"JOIN county ON county.county_id=district.county_id WHERE registration_date BETWEEN '"+prevYear+"-10-01' AND '"+pepfaryear+"-09-30'  " +
+"JOIN county ON county.county_id=district.county_id LEFT JOIN  dic ON dic.dic_id=personal_information.dic_id WHERE registration_date BETWEEN '"+prevYear+"-10-01' AND '"+pepfaryear+"-09-30'  " +
 "GROUP BY county.county_name,district.district_name,partner.partner_name,YEAR, MONTH,AGEBRACKET,personal_information.gender  " +
 "ORDER BY county.county_name,district.district_name,partner.partner_name,YEAR, MONTH" ;
    conn.rs=conn.st.executeQuery(getData);
@@ -223,10 +226,12 @@ stylex.setWrapText(true);
    achieved=conn.rs.getInt(6);
    gender=conn.rs.getString(7);
    agebracket=conn.rs.getString(8);
+   String dicname="";
+   if(conn.rs.getString("DIC")==null){dicname="NO DIC";} else {dicname=conn.rs.getString("DIC");}
 //  CREATE ROW AND ADD DATA TO THE DATA CELLS======================
     XSSFRow data=shet1.createRow(pos);
   data.setHeightInPoints(25);
-  XSSFCell cellx1,cellx2,cellx3,cellx4,cellx5,cellx6,cellx7,cellx8;
+  XSSFCell cellx1,cellx2,cellx3,cellx4,cellx5,cellx6,cellx7,cellx8,cellx9;
   cellx1=data.createCell(0);
   cellx2=data.createCell(1);
     cellx3=data.createCell(2);
@@ -235,6 +240,7 @@ stylex.setWrapText(true);
     cellx6=data.createCell(5);
    cellx7=data.createCell(6);
    cellx8=data.createCell(7);
+   cellx9=data.createCell(7);
 
  cellx1.setCellValue(countyname);
  cellx2.setCellValue(partnername);
@@ -244,6 +250,7 @@ stylex.setWrapText(true);
  cellx6.setCellValue(achieved);
  cellx7.setCellValue(gender);
  cellx8.setCellValue(agebracket);
+ cellx9.setCellValue(dicname);
   
              cellx1.setCellStyle(stylex);
              cellx2.setCellStyle(stylex);
@@ -253,6 +260,7 @@ stylex.setWrapText(true);
              cellx6.setCellStyle(stylex);
              cellx7.setCellStyle(stylex);
              cellx8.setCellStyle(stylex);
+             cellx9.setCellStyle(stylex);
    
 //  System.out.println("county : "+countyname+" partner : "+partnername+" ahieved:"+achieved+" month: "+month+" quarter: "+quarter);
    

@@ -59,7 +59,7 @@ String mail="",county="",partner="",urmail="",src,nextpage;
     urmail=conn.rs.getString(4);
     }
     if(!mail.equals("")){
-        mail+="_EKaunda@fhi360.org_VOdingo@fhi360.org_MKibiwot@aphiarift.org_"+urmail;
+        mail+="_EKaunda@fhi360.org_VOdingo@fhi360.org_MObuya@aphiarift.org_"+urmail;
         System.out.println("mailing list========="+mail);
 //         mail="_GNyabuto@fhi360.org";
         dbname = "pwp";
@@ -237,7 +237,7 @@ try {
                             // a new timestamp that will be called next time a backup is being created.
 
                             conn3.st.executeUpdate("insert into timestamper (timestamp,sent) values('"+daytime+"','No')");
-                            session.setAttribute("datasend", "<font color=\"green\">Backup has been created and send via mail</font>");
+                            session.setAttribute("datasend", "<font color=\"green\"><h2>Backup has been created and send via mail</h2></font>");
                         } else {
 
                             session.setAttribute("datasend", "<font color=\"red\">Backup has been created but NOT send via mail due to problems in internet connection. Try to send Backup Again.</font>");

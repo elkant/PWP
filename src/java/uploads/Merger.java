@@ -643,7 +643,7 @@ String add_Client="INSERT INTO personal_information"
 + "fname=?,mname=?,lname=?,district_id=?,location=?,national_id=?,mobile_no=?,gender=?,dob=?,marital_status=?,"
 + "employment_status=?,education_level=?,under_18s=?,ovc_children=?,group_id=?,provider_id=?,partner_id=?,"
 + "hiv_year=?,art_status=?,hf_id=?,ccc_no=?,registration_date=?,approved_by=?,designation=?,approval_date=?,"
-+ "status=?,timestamp=?,lessons_attended=?,completionyear=?,completionmonth=?,dic_id=?,ward_id=? "
++ "status=?,timestamp=?,lessons_attended=?,completionyear=?,completionmonth=?,dic_id=?,ward_id=?,linked_group=? "
     + "WHERE client_id=?";
           conn3.pst=conn3.conn3.prepareStatement(UpdateClient);
           conn3.pst.setString(1, fname);

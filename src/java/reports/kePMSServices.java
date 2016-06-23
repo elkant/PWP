@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -78,20 +79,31 @@ String yearMonth,monthname,agebracket;
     
    start=Integer.parseInt(startdate);
    end=Integer.parseInt(enddate);
+    Path original = Paths.get(getServletContext().getRealPath("/ServicesAll.xlsm")); //original file
+    
+     Date da= new Date();
+String dat2 = da.toString().replace(" ", "_");
+ dat2 = dat2.toString().replace(":", "_");
    
-         Path original = Paths.get(getServletContext().getRealPath("/ServicesAll.xlsm")); //original file
+    String mydrive = original.toString().substring(0, 1);
+    
+    String np=mydrive+":\\APHIAPLUS\\PWPDBCONNECTION\\ServicesAll_1"+dat2+".xlsm";
+   
+   
+        
    Path destination = Paths.get(getServletContext().getRealPath("/ServicesAll_1.xlsm")); //new file
+   
    System.out.println("origin :  "+original+" destination    :  "+destination);
 try {
        Files.copy(original, destination, StandardCopyOption.REPLACE_EXISTING);
        System.out.println("file copied----------------");
     } catch (IOException x) {
        //catch all for IO problems
-        System.out.println("fine not copied");
+        System.out.println("file not copied");
     }
     
     
-        String allpath = getServletContext().getRealPath("/ServicesAll_1.xlsm");
+        String allpath = getServletContext().getRealPath("/ServicesAll.xlsm");
 
           //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
   XSSFWorkbook wb;
@@ -172,7 +184,7 @@ wb = new XSSFWorkbook(pkg);
    cellxx11=rheading2.createCell(10);
    cellxx12=rheading2.createCell(11);
    cellxx13=rheading2.createCell(12);
-//   cellxx14=rheading2.createCell(13);
+   cellxx14=rheading2.createCell(13);
 //   cellxx15=rheading2.createCell(14);
        
  cellxx1.setCellValue("COUNTY NAME");
@@ -188,7 +200,7 @@ wb = new XSSFWorkbook(pkg);
  cellxx11.setCellValue("TESTED CHILDREN");
  cellxx12.setCellValue("DISCLOSED STATUS");
 // cellxx13.setCellValue("YEAR");
-// cellxx14.setCellValue("MONTH");
+ cellxx14.setCellValue("MONTH");
  cellxx13.setCellValue("AGE BRACKET");
  
   
@@ -227,7 +239,7 @@ stylex.setWrapText(true);
 
     String  getServices="SELECT client_id,COUNTY,GENDER, bit_or(cm) AS CONTRACEPTIVE_METHOD,bit_or(sp) AS REFERRED_TO_SERVICE_POINT, " +
 "SUM(cg) AS CONDOMS_GIVEN ,bit_or(st) AS SCREENED_TB ,bit_or(ss) AS SCREENED_STIS,bit_or(tp) TESTED_PARTNER, " +
-"bit_or(tc) AS TESTED_CHILDREN,bit_or(ds) as DISCLOSED_STATUS,year AS pepfaryear,month as pepfarmonth,partnername as partner,districtname as district,AGEBRACKET FROM ( " +
+"bit_or(tc) AS TESTED_CHILDREN,bit_or(ds) as DISCLOSED_STATUS,year AS pepfaryear,month as pepfarmonth,partnername as partner,districtname as district,MONTHNAME,AGEBRACKET FROM ( " +
 "SELECT personal_information.client_id as client_id,county.county_name as COUNTY,personal_information.gender as GENDER, " +
 " CASE " +
 " WHEN services_provided.contraceptive_method= 'YES' THEN 1 " +
@@ -264,23 +276,23 @@ stylex.setWrapText(true);
 " WHEN services_provided.disclosed_status= 'YES' THEN 1 " +
 " WHEN services_provided.disclosed_status= 'NO' THEN 0 " +
 "ELSE 'NONE' " +
-"END AS ds,services_provided.submission_month AS month,services_provided.submission_year as year,partner.partner_name as partnername,"
-            + "district.district_name as districtname,"
-//            + " CASE "
-//            + " WHEN services_provided.submission_month=1 THEN 'JAN' " 
-//            + " WHEN services_provided.submission_month=2 THEN 'FEB' " 
-//            + " WHEN services_provided.submission_month=3 THEN 'MAR' "
-//            + " WHEN services_provided.submission_month=4 THEN 'APR' "
-//            + " WHEN services_provided.submission_month=5 THEN 'MAY' " 
-//            + " WHEN services_provided.submission_month=6 THEN 'JUN' " 
-//            + " WHEN services_provided.submission_month=7 THEN 'JUL' " 
-//            + " WHEN services_provided.submission_month=8 THEN 'AUG' " 
-//            + " WHEN services_provided.submission_month=9 THEN 'SEPT' " 
-//            + " WHEN services_provided.submission_month=10 THEN 'OCT' " 
-//            + " WHEN services_provided.submission_month=11 THEN 'NOV' " 
-//            + " WHEN services_provided.submission_month=12 THEN 'DEC'"
-//            + "ELSE 'NO MONTH' END AS MONTHNAME,"
-                        + "CASE" +
+"END AS ds,services_provided.submission_month AS month,services_provided.submission_year as year,partner.partner_name as partnername, "
+            + " district.district_name as districtname, "
+            + " CASE "
+            + " WHEN services_provided.submission_month=1 THEN '"+pepfaryear+" 1.(JAN)' " 
+            + " WHEN services_provided.submission_month=2 THEN '"+pepfaryear+" 2. (FEB)' " 
+            + " WHEN services_provided.submission_month=3 THEN '"+pepfaryear+" 3. (MAR)' "
+            + " WHEN services_provided.submission_month=4 THEN '"+pepfaryear+" 4. (APR)' "
+            + " WHEN services_provided.submission_month=5 THEN '"+pepfaryear+" 5. (MAY)' " 
+            + " WHEN services_provided.submission_month=6 THEN '"+pepfaryear+" 6. (JUN)' " 
+            + " WHEN services_provided.submission_month=7 THEN '"+pepfaryear+" 7. (JUL)' " 
+            + " WHEN services_provided.submission_month=8 THEN '"+pepfaryear+" 8. (AUG)' " 
+            + " WHEN services_provided.submission_month=9 THEN '"+pepfaryear+" 9. (SEPT)' " 
+            + " WHEN services_provided.submission_month=10 THEN '"+pepfaryear+" 10.(OCT)' " 
+            + " WHEN services_provided.submission_month=11 THEN '"+pepfaryear+" 11.(NOV)' " 
+            + " WHEN services_provided.submission_month=12 THEN '"+pepfaryear+" 12. (DEC)' "
+            + " ELSE 'NO MONTH' END AS MONTHNAME, "
+                        + " CASE " +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 0 AND 9 THEN '0-9'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 10 AND 14 THEN '10-14'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 15 AND 19 THEN '15-19'" +
@@ -298,6 +310,9 @@ stylex.setWrapText(true);
 + "&& services_provided.submission_year='"+pepfaryear+"' order by personal_information.client_id ) as temptbl" +
 " WHERE (cm>0 || sp>0 || cg>0 || st>0 || ss>0" +
 " || tp>0 || tc>0 || ds>0)  GROUP BY client_id ORDER BY client_id"; 
+    
+     System.out.println(""+getServices);
+    
  conn.rs=conn.st.executeQuery(getServices);
     while(conn.rs.next()){
        countyname=conn.rs.getString(2);
@@ -313,8 +328,8 @@ stylex.setWrapText(true);
        datekey=Integer.parseInt(conn.rs.getInt(12)+""+conn.rs.getInt(13));
        partner=conn.rs.getString(14);
        district=conn.rs.getString(15);
-//       monthname=conn.rs.getString(16);
-       agebracket=conn.rs.getString(16);
+       monthname=conn.rs.getString("MONTHNAME");
+       agebracket=conn.rs.getString(17);
  if(contraceptive_method>0 || rsp>0 || cds_given>0 || screened_tb>0 || screened_stis>0 || tested_partner>0 || tested_children>0 || disclosed_status>0) {  
 //  CREATE ROW AND ADD DATA TO THE DATA CELLS======================
      incrementor++;
@@ -334,7 +349,7 @@ stylex.setWrapText(true);
     cellx11=data.createCell(10);
     cellx12=data.createCell(11); 
     cellx13=data.createCell(12);  
-//    cellx14=data.createCell(13);
+    cellx14=data.createCell(13);
 //    cellx15=data.createCell(14); 
     
  cellx1.setCellValue(countyname);
@@ -349,7 +364,7 @@ stylex.setWrapText(true);
  cellx10.setCellValue(tested_partner);
  cellx11.setCellValue(tested_children);
   cellx12.setCellValue(disclosed_status);
-// cellx13.setCellValue(pepfaryear);
+ cellx14.setCellValue(monthname);
  cellx13.setCellValue(agebracket);
 // cellx15.setCellValue();
   

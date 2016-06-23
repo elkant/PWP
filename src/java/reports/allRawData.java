@@ -144,7 +144,7 @@ String reportType,partners,partner_ids;
     rw4.setRowStyle(style2);
 // rw4.createCell(1).setCellValue("Number");
     HSSFCell cell0,cell1,cell2,cell3,cell4,cell5,cell6,cell7,cell8,cell9,cell10,cell11,cell12,cell13,cell14,cell15,cell16,cell17,cell18,cell19,cell20;
-    HSSFCell cell21,cell22,cell23,cell24,cell25,cell26,cell27,cell28,cell29,cell30,cell31,cell32,cell33;
+    HSSFCell cell21,cell22,cell23,cell24,cell25,cell26,cell27,cell28,cell29,cell30,cell31,cell32,cell33,cell34;
    
     cell0=rw4.createCell(0);
     cell1=rw4.createCell(1);
@@ -180,6 +180,7 @@ String reportType,partners,partner_ids;
    cell31=rw4.createCell(31);
    cell32=rw4.createCell(32);
    cell33=rw4.createCell(33);
+   cell34=rw4.createCell(34);
    
  cell0 .setCellValue("COUNTY NAME");
  cell1.setCellValue("PARTNER NAME");
@@ -218,6 +219,7 @@ String reportType,partners,partner_ids;
  cell31.setCellValue("Partner Tested");
  cell32.setCellValue("Children Tested");
  cell33.setCellValue("Disclosed Status");
+ cell34.setCellValue("Sub-County");
 
  
  HSSFCellStyle stylex = wb.createCellStyle();
@@ -293,7 +295,7 @@ cell33.setCellStyle(stylex);
     rw4.setRowStyle(style2);
 // rw4.createCell(1).setCellValue("Number");
     HSSFCell cell0x,cell1x,cell2x,cell3x,cell4x,cell5x,cell6x,cell7x,cell8x,cell9x,cell10x,cell11x,cell12x,cell13x,cell14x,cell15x,cell16x,cell17x,cell18x,cell19x,cell20x;
-    HSSFCell cell21x,cell22x,cell23x,cell24x,cell25x,cell26x,cell27x,cell28x,cell29x,cell30x,cell31x,cell32x,cell33x;
+    HSSFCell cell21x,cell22x,cell23x,cell24x,cell25x,cell26x,cell27x,cell28x,cell29x,cell30x,cell31x,cell32x,cell33x,cell34x;
    cell0x=rw4x.createCell(0);
    cell1x=rw4x.createCell(1);
    cell2x=rw4x.createCell(2);
@@ -328,6 +330,7 @@ cell33.setCellStyle(stylex);
    cell31x=rw4x.createCell(31);
    cell32x=rw4x.createCell(32);
    cell33x=rw4x.createCell(33);
+   cell34x=rw4x.createCell(34);
 
           clientid=conn.rs.getString(1);
           clientname=conn.rs.getString(2)+" "+conn.rs.getString(3)+" "+conn.rs.getString(4);
@@ -537,6 +540,7 @@ cell33.setCellStyle(stylex);
  cell31x.setCellValue(testedpartner);
  cell32x.setCellValue(testedchild);
  cell33x.setCellValue(status);
+ cell34x.setCellValue(district);
   
 cell0x.setCellStyle(styleBorder);
 cell1x.setCellStyle(styleBorder);
@@ -574,6 +578,7 @@ cell30x.setCellStyle(styleBorder);
 cell31x.setCellStyle(styleBorder);
 cell32x.setCellStyle(styleBorder);
 cell33x.setCellStyle(styleBorder);
+cell34x.setCellStyle(styleBorder);
      i++;  
      System.out.println("here : "+i);
     }

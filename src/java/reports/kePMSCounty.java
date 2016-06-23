@@ -47,12 +47,14 @@ import pwp.dbConn;
  */
 public class kePMSCounty extends HttpServlet {
 HttpSession session;
-String startDate,endDate,month,partnername,clientid,gender,agebracket,county,district;
-int year,prevyear,pos,sessionno,pepfaryear,pos2,achieved,age;
-int start,end,datekey;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InvalidFormatException {
         session=request.getSession();
+        String startDate,endDate,month,partnername,clientid,gender,agebracket,county,district;
+int year,prevyear,pos,sessionno,pepfaryear,pos2,achieved,age;
+int start,end,datekey;
+   agebracket="";     
         dbConn conn = new dbConn();
         pos=0;
         
@@ -149,7 +151,7 @@ stylex.setWrapText(true);
  cell3.setCellValue("MONTH");
  cell4.setCellValue("ACHIEVED");
 cell5.setCellValue("COUNTY");  
-cell6.setCellValue("");   
+cell6.setCellValue("PARTNER");   
 
       String getClients2="SELECT county.county_name,district.district_name,"
             + "CASE " +
@@ -167,15 +169,16 @@ cell6.setCellValue("");
 "when personal_information.completionmonth=12 THEN '"+prevyear+"-12 (DEC)'" +
 "END AS MONTHS,personal_information.completionyear,personal_information.completionmonth,"
              
-              + "personal_information.client_id,personal_information.gender FROM personal_information "
+              + "personal_information.client_id,personal_information.gender, partner_name FROM personal_information "
                + " JOIN district ON district.district_id=personal_information.district_id "
-              + "JOIN county ON county.county_id=district.county_id "
+              + "JOIN county ON county.county_id=district.county_id JOIN partner on personal_information.partner_id =partner.partner_id "
               + " WHERE personal_information.completionmonth>0 && personal_information.completionyear>0";
       
       
       
       
       conn.rs=conn.st.executeQuery(getClients2);
+        System.out.println(getClients2);
       while(conn.rs.next()){
          
           county=conn.rs.getString(1);
@@ -183,18 +186,19 @@ cell6.setCellValue("");
           month=conn.rs.getString(3);
           year=conn.rs.getInt(4);
           gender=conn.rs.getString(7);
+          partnername=conn.rs.getString("partner_name");
           if(gender.equalsIgnoreCase("female")){gender="F";}
           else{gender="M";}
          String dkey=year+""+conn.rs.getString(5);
          datekey=Integer.parseInt(dkey);
 //         achieved=conn.rs.getInt(6);
       if(datekey>=start && datekey<=end && year>=2014){
-      System.out.println("date key : "+datekey);
+      //System.out.println("date key : "+datekey);
       pos++;   
     XSSFRow rw4x=shet1.createRow(pos);
     rw4x.setHeightInPoints(25);
     rw4x.setRowStyle(style2);
-    XSSFCell cell0x,cell1x,cell2x,cell3x,cell4x,cell5x,cell6x;
+    XSSFCell cell0x,cell1x,cell2x,cell3x,cell4x,cell5x,cell6x,cell7x;
    cell0x=rw4x.createCell(0);
    cell1x=rw4x.createCell(1);
    cell2x=rw4x.createCell(2);
@@ -202,6 +206,7 @@ cell6.setCellValue("");
    cell4x=rw4x.createCell(4);
    cell5x=rw4x.createCell(5);
    cell6x=rw4x.createCell(6);
+   cell7x=rw4x.createCell(7);
    //  OUTPUT SERVICES PROVIDED================================     
  cell0x .setCellValue(district);
  cell1x.setCellValue(agebracket);
@@ -209,7 +214,7 @@ cell6.setCellValue("");
  cell3x.setCellValue(month);   
  cell4x.setCellValue(conn.rs.getString(6));          
  cell5x.setCellValue(county);          
-  cell6x.setCellValue(""); 
+  cell6x.setCellValue(partnername); 
    
      }
       }

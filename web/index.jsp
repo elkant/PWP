@@ -240,7 +240,7 @@ setInterval(function(){update();}, 100);
                             </tr>
                             
                         </table>
-                       <p style="color: #0000ff">PWP System. Version 1.6 Last Updated 11th April 2016.</p>
+                       <p style="color: #0000ff">PWP System. Version 1.7 Last Updated 14th June 2016.</p>
                        <h4>
                         <%
                             if (session.getAttribute("error_login") != null)  { %>

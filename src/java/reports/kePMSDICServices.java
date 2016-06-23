@@ -80,7 +80,7 @@ int start,end,datekey, incrementor;
    start=Integer.parseInt(startdate);
    end=Integer.parseInt(enddate);
    
-       Path original = Paths.get(getServletContext().getRealPath("/ServicesDIC.xlsm")); //original file
+       Path original = Paths.get(getServletContext().getRealPath("/ServicesDIC1.xlsm")); //original file
    Path destination = Paths.get(getServletContext().getRealPath("/ServicesDIC_1.xlsm")); //new file
    System.out.println("origin :  "+original+" destination    :  "+destination);
 try {
@@ -92,7 +92,7 @@ try {
     }
     
     
-        String allpath = getServletContext().getRealPath("/ServicesDIC_1.xlsm");
+        String allpath = getServletContext().getRealPath("/ServicesDIC1.xlsm");
 
           //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
   XSSFWorkbook wb;
@@ -155,7 +155,7 @@ wb = new XSSFWorkbook(pkg);
 //  CREATE HEADING 2
   XSSFRow rheading2=shet1.createRow(0);
   rheading2.setHeightInPoints(25);
-  XSSFCell cellxx1,cellxx2,cellxx3,cellxx4,cellxx5,cellxx6,cellxx7,cellxx8,cellxx9,cellxx10,cellxx11;
+  XSSFCell cellxx1,cellxx2,cellxx3,cellxx4,cellxx5,cellxx6,cellxx7,cellxx8,cellxx9,cellxx10,cellxx11,cellxx12;
   cellxx1=rheading2.createCell(0);
   cellxx2=rheading2.createCell(1);
     cellxx3=rheading2.createCell(2);
@@ -167,6 +167,7 @@ wb = new XSSFWorkbook(pkg);
     cellxx9=rheading2.createCell(8);
    cellxx10=rheading2.createCell(9);
    cellxx11=rheading2.createCell(10);
+   cellxx12=rheading2.createCell(11);
        
  cellxx1.setCellValue("DIC NAME");
  cellxx2.setCellValue("GENDER");
@@ -179,6 +180,7 @@ wb = new XSSFWorkbook(pkg);
  cellxx9.setCellValue("TESTED CHILDREN");
  cellxx10.setCellValue("DISCLOSED STATUS");
  cellxx11.setCellValue("AGE BRACKET");
+ cellxx12.setCellValue("MONTH");
   
              cellxx1.setCellStyle(styleBorder);
              cellxx2.setCellStyle(styleBorder);
@@ -210,8 +212,8 @@ stylex.setFont(fontx);
 stylex.setWrapText(true);
 
     String  getServices="SELECT client_id,DIC,GENDER, bit_or(cm) AS CONTRACEPTIVE_METHOD,bit_or(sp) AS REFERRED_TO_SERVICE_POINT, " +
-"SUM(cg) AS CONDOMS_GIVEN ,bit_or(st) AS SCREENED_TB ,bit_or(ss) AS SCREENED_STIS,bit_or(tp) TESTED_PARTNER, " +
-"bit_or(tc) AS TESTED_CHILDREN,bit_or(ds) as DISCLOSED_STATUS,year AS pepfaryear,month as pepfarmonth,AGEBRACKET FROM ( " +
+"SUM(cg) AS CONDOMS_GIVEN ,bit_or(st) AS SCREENED_TB ,bit_or(ss) AS SCREENED_STIS,bit_or(tp) TESTED_PARTNER,  " +
+"bit_or(tc) AS TESTED_CHILDREN,bit_or(ds) as DISCLOSED_STATUS,year AS pepfaryear,month as pepfarmonth ,AGEBRACKET, MONTHNAME FROM ( " +
 "SELECT personal_information.client_id as client_id,dic.dic_name as DIC,personal_information.gender as GENDER, " +
 " CASE " +
 " WHEN services_provided.contraceptive_method= 'YES' THEN 1 " +
@@ -248,8 +250,24 @@ stylex.setWrapText(true);
 " WHEN services_provided.disclosed_status= 'YES' THEN 1 " +
 " WHEN services_provided.disclosed_status= 'NO' THEN 0 " +
 "ELSE 'NONE' " +
-"END AS ds,services_provided.submission_month AS month,services_provided.submission_year as year,"
-                        + "CASE" +
+"END AS ds,services_provided.submission_month AS month ,  services_provided.submission_year as year,  "
+       
+            + " CASE "
+            + " WHEN services_provided.submission_month=1 THEN '"+pepfaryear+" 1.(JAN)' " 
+            + " WHEN services_provided.submission_month=2 THEN '"+pepfaryear+" 2. (FEB)' " 
+            + " WHEN services_provided.submission_month=3 THEN '"+pepfaryear+" 3. (MAR)' "
+            + " WHEN services_provided.submission_month=4 THEN '"+pepfaryear+" 4. (APR)' "
+            + " WHEN services_provided.submission_month=5 THEN '"+pepfaryear+" 5. (MAY)' " 
+            + " WHEN services_provided.submission_month=6 THEN '"+pepfaryear+" 6. (JUN)' " 
+            + " WHEN services_provided.submission_month=7 THEN '"+pepfaryear+" 7. (JUL)' " 
+            + " WHEN services_provided.submission_month=8 THEN '"+pepfaryear+" 8. (AUG)' " 
+            + " WHEN services_provided.submission_month=9 THEN '"+pepfaryear+" 9. (SEPT)' " 
+            + " WHEN services_provided.submission_month=10 THEN '"+pepfaryear+" 10.(OCT)' " 
+            + " WHEN services_provided.submission_month=11 THEN '"+pepfaryear+" 11.(NOV)' " 
+            + " WHEN services_provided.submission_month=12 THEN '"+pepfaryear+" 12. (DEC)' "
+            + " ELSE 'NO MONTH' END AS MONTHNAME, "
+            
+                        + " CASE " +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 0 AND 9 THEN '0-9'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 10 AND 14 THEN '10-14'" +
 "      WHEN (DATE_FORMAT( NOW( ) , '%Y' ) - DATE_FORMAT( personal_information.dob, '%Y' )-( DATE_FORMAT( NOW( ),'YYYY-%mm-%dd' )< DATE_FORMAT( personal_information.dob, 'YYYY-%mm-%dd' ) )) BETWEEN 15 AND 19 THEN '15-19'" +
@@ -265,6 +283,7 @@ stylex.setWrapText(true);
 " WHERE (cm>0 || sp>0 || cg>0 || st>0 || ss>0" +
 " || tp>0 || tc>0 || ds>0)  GROUP BY client_id ORDER BY client_id"; 
  conn.rs=conn.st.executeQuery(getServices);
+        System.out.println(""+getServices);
     while(conn.rs.next()){
        dicname=conn.rs.getString(2);
        if(dicname==null){
@@ -280,14 +299,15 @@ stylex.setWrapText(true);
        tested_children=conn.rs.getInt(10);
        disclosed_status=conn.rs.getInt(11);
        datekey=Integer.parseInt(conn.rs.getInt(12)+""+conn.rs.getInt(13));
-       agebracket=conn.rs.getString(14);
-   
+      agebracket=conn.rs.getString(14);
+      String  monthname=conn.rs.getString(15);
+       
  if(contraceptive_method>0 || rsp>0 || cds_given>0 || screened_tb>0 || screened_stis>0 || tested_partner>0 || tested_children>0 || disclosed_status>0) {  
 //  CREATE ROW AND ADD DATA TO THE DATA CELLS======================
       incrementor++;
     XSSFRow data=shet1.createRow(pos);
   data.setHeightInPoints(25);
-  XSSFCell cellx1,cellx2,cellx3,cellx4,cellx5,cellx6,cellx7,cellx8,cellx9,cellx10,cellx11;
+  XSSFCell cellx1,cellx2,cellx3,cellx4,cellx5,cellx6,cellx7,cellx8,cellx9,cellx10,cellx11,cellx12;
   cellx1=data.createCell(0);
   cellx2=data.createCell(1);
     cellx3=data.createCell(2);
@@ -299,6 +319,7 @@ stylex.setWrapText(true);
     cellx9=data.createCell(8);
     cellx10=data.createCell(9); 
     cellx11=data.createCell(10); 
+    cellx12=data.createCell(11); 
 
  cellx1.setCellValue(dicname);
  cellx2.setCellValue(gender);
@@ -311,6 +332,7 @@ stylex.setWrapText(true);
  cellx9.setCellValue(tested_children);
   cellx10.setCellValue(disclosed_status);
   cellx11.setCellValue(agebracket);
+  cellx12.setCellValue(monthname);
   
              cellx1.setCellStyle(stylex);
              cellx2.setCellStyle(stylex);
