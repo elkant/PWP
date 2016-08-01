@@ -142,13 +142,14 @@
             }
             
             function loaderDataConnection(){
+                
              $.ajax({
       url:"checkConnections" ,
       type:"post",
       dataType:"html",
       success:function(data){
       $("#connections").html(data);  
-          if(data.contains("red")){
+          if(data.indexOf("red")!==-1){
 //          there is net
 $("#send").prop("disabled",true);
 $("#send").val("Error : No internet !");

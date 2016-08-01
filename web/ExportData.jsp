@@ -152,7 +152,7 @@
       success:function(data){
       $("#connections").html(data);  
 //       alert("loader called "+data);
-         if(data.contains("red")){
+         if(data.indexOf("red")!==-1){
 //          there is net
 $("#send").prop("disabled",true);
 $("#send").val("Error : No internet !");
