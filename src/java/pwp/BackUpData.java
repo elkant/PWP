@@ -44,6 +44,7 @@ String mail="",county="",partner="",urmail="",src,nextpage;
             throws ServletException, IOException, SQLException {
        session = request.getSession();
         dbConn conn = new dbConn();
+        dbname=conn.dbsetup[1];
         dbConn3 conn3 = new dbConn3();
         
         nextpage="";
@@ -62,9 +63,14 @@ String mail="",county="",partner="",urmail="",src,nextpage;
         mail+="_EKaunda@fhi360.org_VOdingo@fhi360.org_MObuya@aphiarift.org_"+urmail;
         System.out.println("mailing list========="+mail);
 //         mail="_GNyabuto@fhi360.org";
-        dbname = "pwp";
+        //dbname = "pwp";
         dbuser = "root";
+        if(conn.dbsetup[3]!=null){
+        dbpassword = conn.dbsetup[3];
+        }
+        else {
         dbpassword = "";
+        }
         found_folder = "";
 //MAKE A DIRECTORY TO STORE THE BACK_UP FILE.
 //        GET CURRENT DATE:
@@ -136,7 +142,7 @@ if(day<10){
                     String current_drive = myalphabet[i];
                     File f = new File(current_drive + ":\\wamp\\mysql\\bin\\");
                     File f1 = new File(current_drive + ":\\wamp\\bin\\mysql\\mysql5.6.12\\bin");
-                    File f2 = new File(current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin");
+                    File f2 = new File(current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.7\\bin");
                     //File f4 = new File(current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.6\\bin");
                     File f3 = new File(current_drive + ":\\APHIAPLUS\\PWPDBCONNECTION");
 
@@ -173,7 +179,7 @@ if(day<10){
                         found_folder = "it is new wamp";
                     }
                     if (f2.exists() && f2.isDirectory()) {
-                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysqldump --host=" + localhostsplit[0] + " --port=" + localhostsplit[1] +" --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct deletedclients --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
+                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysqldump --host=" + localhostsplit[0] + " --port=" + localhostsplit[1] +" --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients personal_information groups no_group register register2 service_provider services_provided sessions users adherence prevention_messages prevention_counseling hiv_testing_stis family_planning_tb_pmtct deletedclients --where=STR_TO_DATE(timestamp,'%Y-%m-%d')>=STR_TO_DATE('"+lasttimestamp+"','%Y-%m-%d') -r " + dbpath + "";
                         found_folder = "it is workbench";
                     }
                     

@@ -67,9 +67,16 @@ String mail="",county="",partner="",urmail="";
     if(!mail.equals(""))
     {
         mail+="_ekaunda@aphiarift.org_mobuya@aphiarift.org";
-        dbname = "pwp";
+        dbname =conn.dbsetup[1];
         dbuser = "root";
+        
+        if(conn.dbsetup[3]!=null){
+        dbpassword = conn.dbsetup[3];
+        }
+        else {
         dbpassword = "";
+        }
+        
         String nextpage = "";
         found_folder = "";
 //MAKE A DIRECTORY TO STORE THE BACK_UP FILE.
@@ -141,7 +148,7 @@ if(day<10){
                     String current_drive = myalphabet[i];
                     File f = new File(current_drive + ":\\wamp\\mysql\\bin\\");
                     File f1 = new File(current_drive + ":\\wamp\\bin\\mysql\\mysql5.6.12\\bin");
-                    File f2 = new File(current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin");
+                    File f2 = new File(current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.7\\bin");
                     File f3 = new File(current_drive + ":\\APHIAPLUS\\PWPDBCONNECTION");
 
                     //     CREATE A DIRECTORY AND THE FILE TO HOLD DATA
@@ -179,7 +186,7 @@ if(day<10){
                         found_folder = "it is new wamp";
                     }
                     if (f2.exists() && f2.isDirectory()) {
-                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients groups health_facility no_group register register2 service_provider services_provided sessions users --where=timestamp>='" + lasttimestamp + "' -r " + dbpath + "";
+                        executeCmd = current_drive + ":\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysqldump --host=localhost --user=" + dbuser + " --password=" + dbpassword + " " + dbname + " clerks clients groups health_facility no_group register register2 service_provider services_provided sessions users --where=timestamp>='" + lasttimestamp + "' -r " + dbpath + "";
                         found_folder = "it is workbench";
                     }
                 } catch (SQLException ex) {

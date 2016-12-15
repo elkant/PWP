@@ -110,7 +110,7 @@ IdGenerator IG = new IdGenerator();
               String current_drive=myalphabet[i];
               File f =  new File(current_drive+":\\wamp\\mysql\\bin\\");
               File f1 = new File(current_drive+":\\wamp\\bin\\mysql\\mysql5.6.17\\bin");
-              File f2 = new File(current_drive+":\\Program Files\\MySQL\\MySQL Server 5.5\\bin");
+              File f2 = new File(current_drive+":\\Program Files\\MySQL\\MySQL Server 5.7\\bin");
               File f3 = new File(current_drive+":\\Program Files\\MySQL\\MySQL Server 5.6\\bin");
              
 
@@ -130,7 +130,7 @@ break;
               
            if (f2.exists() && f2.isDirectory()){
 
- executeCmd1 = new String[]{current_drive+":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysql", "--host=" + localhostsplit[0], "--port=" + localhostsplit[1], "--user=" + dbuser, "--password=" + dbpassword, dbname,"-e", " source "+full_path};  
+ executeCmd1 = new String[]{current_drive+":\\Program Files\\MySQL\\MySQL Server 5.7\\bin\\mysql", "--host=" + localhostsplit[0], "--port=" + localhostsplit[1], "--user=" + dbuser, "--password=" + dbpassword, dbname,"-e", " source "+full_path};  
 
 
 found_folder="it is workbench";

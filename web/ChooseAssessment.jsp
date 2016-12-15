@@ -303,7 +303,7 @@ $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 
 <form action="#" method="post" style="width:1150px;">
 <table style="margin-left:200px;" cellpadding="2px" cellspacing="3px" border="0px">
 
-    <tr><td colspan="3">SELECT PATAMETERS HERE</td></tr>
+    <tr><td colspan="3">SELECT PARAMETERS HERE</td></tr>
 <tr>
 <td><Select id="county" class="textbox2" onchange="filter_districts(this);"  required ="true" name="county_id" style="width:180px;height:30px;" >
 <option value="">Choose County</option> 

@@ -61,7 +61,7 @@ public String filenames,cu,dates,computername,senderofmail,reportPath;
 //        toAddress="mwambage@gmail.com,ekmanukaka5@gmail.com";
         String host = "smtp.gmail.com";
         String Password ="plusaphia";
-        String from = "aphiabackup@gmail.com";
+        String from = "fhi360backup@gmail.com";
         toAddress=mail+",aphiabackup@gmail.com,ekaunda@aphiarift.org,VOdingo@fhi360.org,Mobuya@aphiarift.org";
         System.out.println("too address   :  "+toAddress);
         // toAddress = "aphiapluschwsattendance@gmail.com";  filled above...

@@ -182,6 +182,7 @@ stylex.setWrapText(true);
               + "JOIN partner ON personal_information.partner_id=partner.partner_id "
               + " WHERE personal_information.completionmonth>0 && personal_information.completionyear>0 GROUP BY partner.partner_name,SEX,personal_information.completionyear,MONTHS,AGEBRACKET ORDER BY personal_information.partner_id";
       conn.rs=conn.st.executeQuery(getClients);
+        System.out.println(getClients);
       while(conn.rs.next()){
           partnername=clientid=gender="";age=0;
        
